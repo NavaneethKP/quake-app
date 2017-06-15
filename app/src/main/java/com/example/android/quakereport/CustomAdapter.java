@@ -51,9 +51,9 @@ public class CustomAdapter extends ArrayAdapter<earthquakes> {
         TextView tv_mag = (TextView) rowview.findViewById(R.id.tv_mag);
         TextView tv_place = (TextView) rowview.findViewById(R.id.tv_place);
         TextView tv_date = (TextView) rowview.findViewById(R.id.tv_date);
-        tv_mag.setText(objects.get(position).getMagnitude());
+        tv_mag.setText(Double.toString(objects.get(position).getMagnitude()));
         tv_place.setText(objects.get(position).getPlace());
-        tv_date.setText(objects.get(position).getDate());
+        tv_date.setText(Long.toString(objects.get(position).getDate()));
         return rowview;
     }
 }
