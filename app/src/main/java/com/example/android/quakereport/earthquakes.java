@@ -1,5 +1,7 @@
 package com.example.android.quakereport;
 
+import java.math.BigInteger;
+
 /**
  * Created by kpn on 12/6/17.
  */
@@ -8,9 +10,9 @@ public class earthquakes {
 
     private String place;
     private double magnitude;
-    private Long date;
+    private long date;
 
-    public earthquakes(double magnitude, String place, Long date) {
+    public earthquakes(double magnitude, String place, long date) {
         this.magnitude = magnitude;
         this.place = place;
         this.date = date;
@@ -23,7 +25,7 @@ public class earthquakes {
         return place;
     }
 
-    public Long getDate() {
+    public long getDate() {
         return date;
     }
 }
