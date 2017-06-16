@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.math.BigInteger;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,6 +51,7 @@ public class CustomAdapter extends ArrayAdapter<earthquakes> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
+        earthquakes obj = objects.get(position);
         LayoutInflater inflater =LayoutInflater.from(getContext());
         View rowview =inflater.inflate(R.layout.mylist,parent,false);
         TextView tv_mag = (TextView) rowview.findViewById(R.id.tv_mag);
@@ -58,11 +60,11 @@ public class CustomAdapter extends ArrayAdapter<earthquakes> {
         TextView tv_time = (TextView) rowview.findViewById(R.id.tv_time);
         TextView tv_loc = (TextView) rowview.findViewById(R.id.tv_loc);
 
-        tv_mag.setText(String.valueOf(objects.get(position).getMagnitude()));
-        String[] location = format_place(objects.get(position).getPlace());
+        tv_mag.setText(format_magnitude(obj.getMagnitude()));
+        String[] location = format_place(obj.getPlace());
         tv_place.setText(location[0]);
         tv_loc.setText(location[1]);
-        long date = objects.get(position).getDate();
+        long date = obj.getDate();
         String date_format = format_date(date);
         String time_format = format_time(date);
         tv_date.setText(date_format);
@@ -98,6 +100,12 @@ public class CustomAdapter extends ArrayAdapter<earthquakes> {
         {
             return new String[]{"Near the", place};
         }
+    }
+
+    private String format_magnitude(double mag)
+    {
+        DecimalFormat formatter = new DecimalFormat("0.0");
+        return formatter.format(mag);
     }
 
 
