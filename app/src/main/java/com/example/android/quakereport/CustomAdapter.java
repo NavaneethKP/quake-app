@@ -49,14 +49,19 @@ public class CustomAdapter extends ArrayAdapter<earthquakes> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+
         LayoutInflater inflater =LayoutInflater.from(getContext());
         View rowview =inflater.inflate(R.layout.mylist,parent,false);
         TextView tv_mag = (TextView) rowview.findViewById(R.id.tv_mag);
         TextView tv_place = (TextView) rowview.findViewById(R.id.tv_place);
         TextView tv_date = (TextView) rowview.findViewById(R.id.tv_date);
         TextView tv_time = (TextView) rowview.findViewById(R.id.tv_time);
+        TextView tv_loc = (TextView) rowview.findViewById(R.id.tv_loc);
+
         tv_mag.setText(String.valueOf(objects.get(position).getMagnitude()));
-        tv_place.setText(objects.get(position).getPlace());
+        String[] location = format_place(objects.get(position).getPlace());
+        tv_place.setText(location[0]);
+        tv_loc.setText(location[1]);
         long date = objects.get(position).getDate();
         String date_format = format_date(date);
         String time_format = format_time(date);
@@ -77,6 +82,22 @@ public class CustomAdapter extends ArrayAdapter<earthquakes> {
         Date time_object = new Date(time);
         SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
         return timeFormat.format(time_object);
+    }
+
+    private String[] format_place(String place)
+    {
+        String[] location ;
+        boolean check = place.contains("of");
+        if(check)
+        {
+            location = place.split("of ");
+            location[0]=location[0]+"of";
+            return  location;
+        }
+        else
+        {
+            return new String[]{"Near the", place};
+        }
     }
 
 
