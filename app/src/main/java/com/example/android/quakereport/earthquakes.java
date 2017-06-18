@@ -21,11 +21,7 @@ public class earthquakes {
 
     public double getMagnitude() { return magnitude; }
 
-    public String getPlace() {
-        return place;
-    }
+    public String getPlace() { return place;   }
 
-    public long getDate() {
-        return date;
-    }
+    public long getDate() { return date;  }
 }
