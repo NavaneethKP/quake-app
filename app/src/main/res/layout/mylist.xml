@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingBottom="10dp"
     android:paddingTop="10dp">
 
@@ -11,48 +12,58 @@
         android:id="@+id/tv_mag"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:gravity="center"
-        android:background="@drawable/magnitude_circle"
-        android:textColor="@android:color/white"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp" />
+        android:layout_marginStart="10dp"
+        android:background="@drawable/magnitude_circle"
+        android:gravity="center"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/tv_place"
         android:layout_width="175dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/textColorEarthquakeDetails"
+        tools:text="Near the"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/tv_date"
-        android:layout_toStartOf="@+id/tv_date" />
+        android:layout_alignLeft="@+id/tv_loc"
+        android:layout_alignStart="@+id/tv_loc" />
 
     <TextView
         android:id="@+id/tv_date"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="13dp"
         android:layout_marginEnd="13dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/textColorEarthquakeDetails"
+        tools:text="Jan 21,2017"
+        android:gravity="end"/>
 
     <TextView
         android:id="@+id/tv_time"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_date"
-        android:layout_toRightOf="@+id/tv_place"
-        android:layout_toEndOf="@+id/tv_place" />
+        android:textColor="@color/textColorEarthquakeDetails"
+        tools:text="12:00 pm"
+        android:gravity="end"
+        android:layout_alignBaseline="@+id/tv_loc"
+        android:layout_alignBottom="@+id/tv_loc"
+        android:layout_alignRight="@+id/tv_date"
+        android:layout_alignEnd="@+id/tv_date" />
 
     <TextView
         android:id="@+id/tv_loc"
-        android:layout_width="175dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/tv_time"
-        android:layout_toStartOf="@+id/tv_time"
+        android:textColor="@color/textColorEarthquakeLocation"
+        android:textSize="16sp"
+        tools:text="Long Placeholder text should wrap within 2 lines "
         android:layout_below="@+id/tv_place"
-        android:layout_alignBottom="@+id/tv_time" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
