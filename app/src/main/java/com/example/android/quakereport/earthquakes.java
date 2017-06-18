@@ -8,14 +8,15 @@ import java.math.BigInteger;
 
 public class earthquakes {
 
-    private String place;
+    private String place,url;
     private double magnitude;
     private long date;
 
-    public earthquakes(double magnitude, String place, long date) {
+    public earthquakes(double magnitude, String place, long date,String url) {
         this.magnitude = magnitude;
         this.place = place;
         this.date = date;
+        this.url=url;
     }
 
 
@@ -24,4 +25,6 @@ public class earthquakes {
     public String getPlace() { return place;   }
 
     public long getDate() { return date;  }
+
+    public String getUrl() { return url;  }
 }

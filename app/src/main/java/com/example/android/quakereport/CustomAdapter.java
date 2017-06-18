@@ -10,18 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-/**
- * Created by kpn on 12/6/17.
- */
 
 public class CustomAdapter extends ArrayAdapter<earthquakes> {
 
@@ -158,6 +151,5 @@ public class CustomAdapter extends ArrayAdapter<earthquakes> {
         }
         color = ContextCompat.getColor(getContext(), color_id);
         return color;
-
     }
 }

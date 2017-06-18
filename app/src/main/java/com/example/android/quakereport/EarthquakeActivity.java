@@ -15,11 +15,15 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.net.URI;
 import java.util.ArrayList;
 
 public class EarthquakeActivity extends AppCompatActivity {
@@ -32,10 +36,27 @@ public class EarthquakeActivity extends AppCompatActivity {
         setContentView(R.layout.earthquake_activity);
 
         // Create a fake list of earthquake locations.
-        ArrayList<earthquakes> quakelist = QueryUtils.extractearthquakes();
+        final ArrayList<earthquakes> quakelist = QueryUtils.extractearthquakes();
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
         CustomAdapter adapter=new CustomAdapter(EarthquakeActivity.this,R.layout.mylist,quakelist);
         earthquakeListView.setAdapter(adapter);
+
+        //First earthquake obj is created and assigned
+        //Uri object created that stores the webpage URL
+        //On clicking list item Intent constructor is called with Intent.ACTION_VIEW(Viewing something)
+        //And the Uri is also passed as arguement
+
+        earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                earthquakes obj = quakelist.get(i);
+                Uri webpage_url = Uri.parse(obj.getUrl());
+                Intent webpage = new Intent(Intent.ACTION_VIEW,webpage_url);
+                startActivity(webpage);
+
+            }
+        });
     }
 }
 
