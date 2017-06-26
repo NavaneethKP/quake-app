@@ -15,11 +15,12 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CustomAdapter extends ArrayAdapter<earthquakes> {
 
     private Context context;
-    private ArrayList<earthquakes> objects = new ArrayList<>();
+    private List<earthquakes> objects = new ArrayList<>();
 
     @Override
     public int getCount() {
@@ -37,7 +38,7 @@ public class CustomAdapter extends ArrayAdapter<earthquakes> {
         return position;
     }
 
-    public CustomAdapter(@NonNull Context context, @LayoutRes int resource, ArrayList<earthquakes> list) {
+    public CustomAdapter(@NonNull Context context, @LayoutRes int resource, List<earthquakes> list) {
         super(context, resource);
         this.objects = list;
     }
@@ -83,7 +84,7 @@ public class CustomAdapter extends ArrayAdapter<earthquakes> {
     //Method to return date in readable format
     private String format_date(long time) {
         Date date_object = new Date(time);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM DD,yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd,yyyy");
         return dateFormat.format(date_object);
     }
 
