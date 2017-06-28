@@ -19,6 +19,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.LoaderManager;
+import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,64 +30,69 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EarthquakeActivity extends AppCompatActivity {
+public class EarthquakeActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<earthquakes>> {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
 
     //Sample USGS query
     private static final String SAMPLE_QUERY ="https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
 
+    private CustomAdapter adapter;
+
+    private int ID=1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        //Creating an object for the EarthquakeAsyncTask
-        //Calling the background task by passing query url as params
-        EarthquakeAsyncTask task=new EarthquakeAsyncTask();
-        task.execute(SAMPLE_QUERY);
+        //Create a reference for the LoaderManager
+        LoaderManager loader=getLoaderManager();
+
+        //Intialise the loader with id,bundle,activity (since it implements the interface)
+        loader.initLoader(ID,null,this);
+
     }
 
-    //Class to handle BackgroundThread
-    private class EarthquakeAsyncTask extends AsyncTask<String,Void,List<earthquakes>>{
+    @Override
+    public Loader<List<earthquakes>> onCreateLoader(int id, Bundle args) {
 
+        //To create a new loader for the query url
+        return new EarthqaukeLoader(this,SAMPLE_QUERY);
+    }
 
-        @Override
-        protected List<earthquakes> doInBackground(String... strings) {
+    @Override
+    public void onLoadFinished(Loader<List<earthquakes>> loader, final List<earthquakes> data) {
 
-            //To check if there was no input params
-            if(strings.length<1 || strings[0]==null) {
-                return null;
-            }
-                List<earthquakes> list = QueryUtils.extractearthquakes(strings[0]);
-                return list;
+        //Checking if the list is null
+        //Otherwise create an adapter for the objects
+        //Also setOnItemClickListener to go to the website for more information
 
+        if(data!=null) {
+            ListView earthquakeListView = (ListView) findViewById(R.id.list);
+            adapter = new CustomAdapter(EarthquakeActivity.this, R.layout.mylist, data);
+            earthquakeListView.setAdapter(adapter);
+            earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                    earthquakes obj = data.get(i);
+                    Uri webpage_url = Uri.parse(obj.getUrl());
+                    Intent webpage = new Intent(Intent.ACTION_VIEW, webpage_url);
+                    startActivity(webpage);
+
+                }
+            });
         }
 
-        @Override
-        protected void onPostExecute(final List<earthquakes> earthquakes) {
+    }
 
-            //Checking if the list is null
-            //Otherwise create an adapter for the objects
-            //Also setOnItemClickListener to go to the website for more information
-            if(earthquakes!=null) {
-                ListView earthquakeListView = (ListView) findViewById(R.id.list);
-                CustomAdapter adapter = new CustomAdapter(EarthquakeActivity.this, R.layout.mylist, earthquakes);
-                earthquakeListView.setAdapter(adapter);
-                earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    @Override
+    public void onLoaderReset(Loader<List<earthquakes>> loader) {
 
-                        earthquakes obj = earthquakes.get(i);
-                        Uri webpage_url = Uri.parse(obj.getUrl());
-                        Intent webpage = new Intent(Intent.ACTION_VIEW, webpage_url);
-                        startActivity(webpage);
+        //To clear the adapter with the existing data
+        adapter.clear();
 
-                    }
-                });
-            }
-        }
     }
 }
 
