@@ -22,9 +22,11 @@ import android.os.Bundle;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -41,16 +43,28 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     private int ID=1;
 
+    TextView emptyview;
+    ListView earthquakeListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
+        //To create an emptyview if there is no list item available
+        earthquakeListView = (ListView) findViewById(R.id.list);
+        emptyview=(TextView) findViewById(R.id.emptyview);
+        earthquakeListView.setEmptyView(emptyview);
+
+
         //Create a reference for the LoaderManager
         LoaderManager loader=getLoaderManager();
 
         //Intialise the loader with id,bundle,activity (since it implements the interface)
+        Log.i(LOG_TAG,"initLoader()");
         loader.initLoader(ID,null,this);
+
+
 
     }
 
@@ -58,7 +72,9 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
     public Loader<List<earthquakes>> onCreateLoader(int id, Bundle args) {
 
         //To create a new loader for the query url
+        Log.i(LOG_TAG,"onCreateLoader()");
         return new EarthqaukeLoader(this,SAMPLE_QUERY);
+
     }
 
     @Override
@@ -68,8 +84,11 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         //Otherwise create an adapter for the objects
         //Also setOnItemClickListener to go to the website for more information
 
+        Log.i(LOG_TAG,"onLoadFinished()");
+
+        //Setting the emptyview to the string
+        emptyview.setText("No Earthquakes Found");
         if(data!=null) {
-            ListView earthquakeListView = (ListView) findViewById(R.id.list);
             adapter = new CustomAdapter(EarthquakeActivity.this, R.layout.mylist, data);
             earthquakeListView.setAdapter(adapter);
             earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,13 +103,13 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
                 }
             });
         }
-
     }
 
     @Override
     public void onLoaderReset(Loader<List<earthquakes>> loader) {
 
         //To clear the adapter with the existing data
+        Log.i(LOG_TAG,"onLoaderReset()");
         adapter.clear();
 
     }
