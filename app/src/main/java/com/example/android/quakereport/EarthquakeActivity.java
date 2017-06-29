@@ -15,9 +15,11 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.LoaderManager;
 import android.content.Loader;
@@ -53,9 +55,12 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        //To create an emptyview if there is no list item available
+        //Specifying id for the views
+        progress_view=(ProgressBar) findViewById(R.id.progress_view);
         earthquakeListView = (ListView) findViewById(R.id.list);
         emptyview=(TextView) findViewById(R.id.emptyview);
+
+        //To create an emptyview if there is no list item available
         earthquakeListView.setEmptyView(emptyview);
 
 
@@ -64,8 +69,21 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
         //Intialise the loader with id,bundle,activity (since it implements the interface)
         Log.i(LOG_TAG,"initLoader()");
-        loader.initLoader(ID,null,this);
 
+        //Checking if there is internet connection
+        //Else do not initialise the loader
+        //Disable progress bar and display the text
+        ConnectivityManager cm=(ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activenetwork=cm.getActiveNetworkInfo();
+        boolean isconnected=activenetwork!=null && activenetwork.isConnectedOrConnecting();
+        if(isconnected)
+        loader.initLoader(ID,null,this);
+        else
+        {
+            progress_view.setVisibility(View.GONE);
+            emptyview.setText("No Internet Connection");
+
+        }
 
 
     }
