@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.net.URI;
@@ -45,6 +46,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
     TextView emptyview;
     ListView earthquakeListView;
+    ProgressBar progress_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,10 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
         //Also setOnItemClickListener to go to the website for more information
 
         Log.i(LOG_TAG,"onLoadFinished()");
+
+        //Hide the loading indicator
+        progress_view=(ProgressBar) findViewById(R.id.progress_view);
+        progress_view.setVisibility(View.GONE);
 
         //Setting the emptyview to the string
         emptyview.setText("No Earthquakes Found");
