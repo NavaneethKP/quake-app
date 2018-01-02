@@ -98,14 +98,15 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderManag
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         String minMagnitude = sharedPreferences.getString(getString(R.string.settings_min_magnitude_key),getString(R.string.settings_min_magnitude_default));
+        String orderBy = sharedPreferences.getString(getString(R.string.settings_order_by_key),getString(R.string.settings_order_by_default));
 
         Uri baseuri = Uri.parse(SAMPLE_QUERY);
         Uri.Builder uribuilder = baseuri.buildUpon();
 
-        uribuilder.appendQueryParameter("format","geojson");
-        uribuilder.appendQueryParameter("limit","10");
-        uribuilder.appendQueryParameter("minmag",minMagnitude);
-        uribuilder.appendQueryParameter("orderby","time");
+        uribuilder.appendQueryParameter("format", "geojson");
+        uribuilder.appendQueryParameter("limit", "10");
+        uribuilder.appendQueryParameter("minmag", minMagnitude);
+        uribuilder.appendQueryParameter("orderby", orderBy);
 
         return new EarthqaukeLoader(this, uribuilder.toString());
 

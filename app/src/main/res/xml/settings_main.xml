@@ -5,13 +5,20 @@
     android:title="@string/settings_title"
     >
 
+    <ListPreference
+        android:title="@string/settings_order_by_label"
+        android:defaultValue="@string/settings_order_by_default"
+        android:key="@string/settings_order_by_key"
+        android:entries="@array/settings_order_by_labels"
+        android:entryValues="@array/settings_order_by_values"
+        />
+
     <EditTextPreference
-        android:title="@string/settings_min_magnitude"
+        android:title="@string/settings_min_magnitude_label"
         android:key="@string/settings_min_magnitude_key"
         android:defaultValue="@string/settings_min_magnitude_default"
         android:inputType="numberDecimal"
         android:selectAllOnFocus="true"
-
         />
 
 </PreferenceScreen>
